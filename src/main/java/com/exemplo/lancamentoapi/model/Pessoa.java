@@ -8,8 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table( name = "pessoa" )
@@ -29,13 +32,11 @@ public class Pessoa {
 	@NotNull
 	private Boolean ativo;
 	
-//	public Pessoa(Long codigo, @NotNull @Size(min = 3, max = 30) String nome, Endereco endereco,
-//			@NotNull Boolean ativo) {
-//		this.codigo = codigo;
-//		this.nome = nome;
-//		this.endereco = endereco;
-//		this.ativo = ativo;
-//	}
+	@JsonIgnore
+	@Transactional
+	public Boolean isInativo() {
+		return !this.ativo;
+	}
 
 	public Long getCodigo() {
 		return codigo;
