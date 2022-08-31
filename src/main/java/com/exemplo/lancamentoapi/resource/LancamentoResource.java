@@ -28,6 +28,7 @@ import com.exemplo.lancamentoapi.event.RecursoCriadoEvent;
 import com.exemplo.lancamentoapi.exceptionhandler.LancamentoExceptionHandler.Erro;
 import com.exemplo.lancamentoapi.model.Lancamento;
 import com.exemplo.lancamentoapi.repository.LancamentoRepository;
+import com.exemplo.lancamentoapi.repository.filter.LancamentoFiter;
 import com.exemplo.lancamentoapi.services.LancamentoService;
 import com.exemplo.lancamentoapi.services.exception.PessoaInexistenteOuInativaException;
 
@@ -47,8 +48,8 @@ public class LancamentoResource {
 	private MessageSource messageSource;
 
 	@GetMapping
-	public List<Lancamento> listarLancamento() {
-		List<Lancamento> lista = repository.findAll();
+	public List<Lancamento> pesquisar(LancamentoFiter lancamentoFiter) {
+		List<Lancamento> lista = repository.filtrar(lancamentoFiter);
 		return lista;
 	}
 
