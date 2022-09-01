@@ -3,7 +3,6 @@ package com.exemplo.lancamentoapi.resource;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.Flow.Publisher;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -12,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpHeaders;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,7 +29,7 @@ import com.exemplo.lancamentoapi.event.RecursoCriadoEvent;
 import com.exemplo.lancamentoapi.exceptionhandler.LancamentoExceptionHandler.Erro;
 import com.exemplo.lancamentoapi.model.Lancamento;
 import com.exemplo.lancamentoapi.repository.LancamentoRepository;
-import com.exemplo.lancamentoapi.repository.filter.LancamentoFiter;
+import com.exemplo.lancamentoapi.repository.filter.LancamentoFilter;
 import com.exemplo.lancamentoapi.services.LancamentoService;
 import com.exemplo.lancamentoapi.services.exception.PessoaInexistenteOuInativaException;
 
@@ -50,8 +49,8 @@ public class LancamentoResource {
 	private MessageSource messageSource;
 
 	@GetMapping
-	public List<Lancamento> pesquisar(LancamentoFiter lancamentoFiter) {
-		List<Lancamento> lista = repository.filtrar(lancamentoFiter);
+	public Page<Lancamento> pesquisar(LancamentoFilter lancamentoFiter, Pageable pageable) {
+		Page<Lancamento> lista = repository.filtrar(lancamentoFiter, pageable);
 		return lista;
 	}
 
